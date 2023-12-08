@@ -1,0 +1,61 @@
+<div class='w-full max-w-[1200px] mx-auto px-4 md:pt-16 lg:px-20'>
+  <h1 class='text-h1-d pb-[30px] md:text-h1-m'>{{ blog.title | escape }}</h1>
+
+  <div class='grid gap-2 grid-cols-1 md:grid-cols-2{% if section.settings.layout == 'collage' %} md:[&>*:nth-child(1)]:col-span-2{% endif %}'>
+    {% for article in blog.articles %}
+      {% render 'article-card',
+        article: article,
+        layout: section.settings.layout,
+        show_image: section.settings.show_image,
+        show_date: section.settings.show_date,
+        show_author: section.settings.show_author,
+        show_excerpt: section.settings.show_excerpt,
+        index: forloop.index
+      %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Blog Listing Page",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "collage",
+          "label": "Collage"
+        }
+      ],
+      "default": "collage",
+      "label": "Desktop layout",
+      "info": "Posts are stacked on mobile."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "default": true,
+      "label": "Show date"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "default": false,
+      "label": "Show author"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "default": true,
+      "label": "Show excerpt"
+    }
+  ]
+}
+{% endschema %}

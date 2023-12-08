@@ -1,0 +1,62 @@
+{% liquid
+  assign articleIndex = index
+
+  if articleIndex == 1
+    assign imageClasses = 'object-cover object-top min-h-[50vh] max-h-[50vh]'
+  else
+    assign imageClasses = 'object-cover object-top max-h-[306px]'
+  endif
+%}
+
+{%- if article and article != empty -%}
+  <article
+    class='relative'
+    aria-labelledby='Article-{{ article.id }}'
+    data-index='{{ articleIndex }}'
+  >
+    {%- if article.image -%}
+      <a href='{{ article.url }}'>
+        {% render 'image',
+          image_desktop: article.image,
+          src_sm: 640,
+          src_md: 768,
+          src_lg: 1024,
+          src_xl: 1280,
+          src_2xl: 1536,
+          initial_width: 1024,
+          mobile_width: 640,
+          classes: imageClasses
+        %}
+      </a>
+    {%- endif -%}
+
+    <div class='py-6 {% if articleIndex == 1 and layout == 'collage' %}md:text-center{% else %}text-left{% endif %}'>
+      <h3 class='mb-2 text-h5-m lg:text-h5-d hover:underline'>
+        <a href='{{ article.url }}'>
+          {{- article.title | truncate: 50 | escape -}}
+        </a>
+      </h3>
+      <div class='pt-1 space-x-2 text-12 uppercase'>
+        {%- if show_date -%}
+          <span>
+            {{- article.published_at | time_tag: format: 'date' -}}
+          </span>
+        {%- endif -%}
+        {%- if show_author -%}
+          <span>{{ article.author }}</span>
+        {%- endif -%}
+      </div>
+      {%- if show_excerpt -%}
+        {%- if article.excerpt.size > 0 or article.content.size > 0 -%}
+          <p class='mt-4 text-[14px] text-grey-800 {% if articleIndex == 1 and layout == 'collage' %}md:mx-16{% endif %}'>
+            {%- if article.excerpt.size > 0 -%}
+              {{ article.excerpt | strip_html | truncatewords: 30 }}
+            {%- else -%}
+              {{ article.content | strip_html | truncatewords: 30 }}
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </article>
+{%- endif -%}

@@ -1,0 +1,114 @@
+<article
+  class='w-full max-w-7xl mx-auto pb-10'
+  itemscope
+  itemtype='http://schema.org/BlogPosting'
+>
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when 'featured_image' -%}
+        {%- if article.image -%}
+          <div class='mb-5' {{ block.shopify_attributes }}>
+            {% render 'image',
+              image_desktop: article.image,
+              src_sm: 640,
+              src_md: 768,
+              src_lg: 1024,
+              src_xl: 1280,
+              src_2xl: 1536,
+              initial_width: 1024,
+              mobile_width: 640
+            %}
+          </div>
+        {%- endif -%}
+
+      {%- when 'title' -%}
+        <header
+          class='p-5 max-w-3xl mx-auto space-y-5'
+          {{ block.shopify_attributes }}
+        >
+          <h1 class='text-h2-m md:text-h2-d text-black' itemprop='headline'>
+            {{ article.title | escape }}
+          </h1>
+          {%- if block.settings.blog_show_date -%}
+            <span
+              class='block text-12 uppercase pt-1'
+              itemprop='dateCreated pubdate datePublished'
+            >
+              {{- article.published_at | time_tag: format: 'date' -}}
+            </span>
+          {%- endif -%}
+          {%- if block.settings.blog_show_author -%}
+            <span
+              class='block text-black'
+              itemprop='author'
+              itemscope
+              itemtype='http://schema.org/Person'
+            >
+              <span itemprop='name'>{{ article.author }}</span>
+            </span>
+          {%- endif -%}
+        </header>
+
+      {%- when 'content' -%}
+        <style>
+          img {
+            width: 100%;
+          }
+        </style>
+
+        <div
+          class='p-5 max-w-3xl mx-auto space-y-5 text-grey-800 leading-7'
+          itemprop='articleBody'
+          {{ block.shopify_attributes }}
+        >
+          {{ article.content }}
+        </div>
+    {%- endcase -%}
+  {%- endfor -%}
+
+  <a
+    href='{{ blog.url }}'
+    class='flex gap-5 w-full items-center justify-center pt-5 text-black'
+  >
+    <span>{% render 'icon-left' %}</span>
+    <span>{{ 'blogs.article.back_to_blog' | t: title: blog.title }}</span>
+  </a>
+</article>
+
+{% schema %}
+{
+  "name": "Blog post",
+  "tag": "section",
+  "blocks": [
+    {
+      "type": "featured_image",
+      "name": "Featured image",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "blog_show_date",
+          "default": true,
+          "label": "Show date"
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_author",
+          "default": false,
+          "label": "Show author"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Content",
+      "limit": 1
+    }
+  ]
+}
+{% endschema %}

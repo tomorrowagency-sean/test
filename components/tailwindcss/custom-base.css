@@ -1,0 +1,50 @@
+@layer base {
+  html {
+    @apply font-regular text-[16px] antialiased;
+  }
+
+  body {
+    @apply body-1;
+  }
+
+  [data-aria-hidden='true'] {
+    @apply hidden;
+  }
+
+  h1,
+  .h1 {
+    @apply heading-1;
+  }
+
+  h2,
+  .h2 {
+    @apply heading-2;
+  }
+
+  h3,
+  .h3 {
+    @apply heading-3;
+  }
+
+  h4,
+  .h4 {
+    @apply heading-4;
+  }
+
+  h5,
+  .h5 {
+    @apply heading-5;
+  }
+
+  a {
+    @apply text-gray-500 underline hover:text-gray-700;
+  }
+
+  details > summary {
+    list-style: none;
+  }
+
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+}

@@ -1,0 +1,74 @@
+@layer utilities {
+  .heading-1 {
+    @apply font-regular text-48 uppercase leading-110 tracking-xs;
+  }
+
+  .heading-2 {
+    @apply font-regular text-36 uppercase leading-110 tracking-xs lg:text-44;
+  }
+
+  .heading-3 {
+    @apply font-regular text-24 leading-110 tracking-xs lg:text-28;
+  }
+
+  .heading-4 {
+    @apply font-regular text-20 uppercase leading-110 tracking-xs lg:text-22;
+  }
+
+  .heading-5 {
+    @apply font-regular text-18 leading-140 tracking-xs;
+  }
+
+  /* Eyebrow */
+  .eyebrow {
+    @apply font-regular text-14 font-semibold leading-130 tracking-m uppercase;
+  }
+
+  /* Body */
+  .body-1 {
+    @apply font-regular text-16 leading-140 tracking-xs-s;
+  }
+
+  .body-1-underline {
+    @apply body-1 underline;
+  }
+
+  .body-1-bold {
+    @apply text-16 font-bold leading-140 tracking-xs-s;
+  }
+
+  .body-2 {
+    @apply font-regular text-14 normal-case leading-140 tracking-xs-s;
+  }
+
+  .body-2-bold {
+    @apply text-14 font-bold normal-case leading-140 tracking-xs-s;
+  }
+
+  .body-2-underline {
+    @apply body-2 underline;
+  }
+
+  .body-3 {
+    @apply font-regular text-12 leading-140 tracking-xs-s;
+  }
+
+  .body-3-bold {
+    @apply text-12 font-bold leading-140 tracking-xs-s;
+  }
+
+  .body-3-underline {
+    @apply body-3 underline;
+  }
+
+  /* For Webkit-based browsers (Chrome, Safari and Opera) */
+  .scrollbar-hide::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  /* For IE, Edge and Firefox */
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

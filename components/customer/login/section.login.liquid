@@ -1,0 +1,165 @@
+<section class="my-16">
+  {% comment %} Password recovery form {% endcomment %}
+  <div id="recover" class="flex-col items-center hidden mx-auto mb-8 gap-x-5 w-fit peer target:flex" tabindex="-1">
+    <h1>{{ 'customer.recover_password.title' | t }}</h1>
+    <p>{{ 'customer.recover_password.subtitle' | t }}</p>
+  </div>
+
+  <div class="hidden w-full max-w-xs mx-auto my-0 peer-target:flex">
+    {%- form 'recover_customer_password', class: 'flex flex-col items-center gap-y-4 w-full' -%}
+      {% assign recover_success = form.posted_successfully? %}
+      {% assign input_label = 'customer.login_page.email' | t %}
+      {% assign button_text = 'customer.login_page.submit' | t %}
+
+      <div class="w-full input-wrapper">
+        <label
+          for="RecoverEmail"
+          class="input-label"
+        >
+          {{ input_label }}
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="RecoverEmail"
+          class="input"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          {%- if form.errors -%}
+            aria-invalid="true"
+            aria-describedby="RecoverEmail-email-error"
+            autofocus
+          {%- endif -%}
+        />
+      </div>
+
+      {%- if form.errors -%}
+        <small class="flex gap-x-1" tabindex="-1">
+          <span class="hidden">{{ 'accessibility.error' | t }} </span>
+          <span class="inline-flex items-center m-0">
+            {% render 'icon-error' %}
+          </span>
+          <div>
+            {{ form.errors.messages['form'] }}
+          </div>
+        </small>
+      {%- endif -%}
+
+      <button class="w-full button button--primary">
+        {{- 'customer.login_page.submit' | t -}}
+      </button>
+
+      <a href="#login">{{ 'customer.login_page.cancel' | t }}</a>
+    {%- endform -%}
+  </div>
+
+  {% comment %} Customer login form {% endcomment %}
+  <h1 id="login" class="flex justify-center mb-8 peer-target:hidden" tabindex="-1">
+    {{ 'customer.login_page.title' | t }}
+  </h1>
+
+  <div class="w-full max-w-xs mx-auto my-0 peer-target:hidden">
+    {%- if recover_success == true -%}
+      <h2 tabindex="-1" autofocus>
+        {% render 'icon-success' %}
+        {{ 'customer.recover_password.success' | t }}
+      </h2>
+    {%- endif -%}
+
+    {%- form 'customer_login', class: 'flex flex-col items-center gap-y-4', novalidate: 'novalidate' -%}
+      {% assign input_label = 'customer.login_page.email' | t %}
+      <div class="w-full input-wrapper">
+        <label
+          for="CustomerEmail"
+          class="input-label"
+        >
+          {{ input_label }}
+        </label>
+        <input
+          type="email"
+          name="customer[email]"
+          id="CustomerEmail"
+          class="input"
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="email"
+          {%- if form.errors contains "form" -%}
+            aria-invalid="true"
+          {%- endif -%}
+        />
+      </div>
+
+      {%- if form.password_needed -%}
+        {% assign input_label = 'customer.login_page.password' | t %}
+        <div class="w-full input-wrapper">
+          <label
+            for="CustomerPassword"
+            class="input-label"
+          >
+            {{ input_label }}
+          </label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="CustomerPassword"
+            class="input"
+            autocomplete="current-password"
+            {% if form.errors contains "form" %}
+              aria-invalid="true"
+            {%- endif -%}
+          />
+        </div>
+
+        <a href="#recover">
+          {{ 'customer.login_page.forgot_password' | t }}
+        </a>
+      {%- endif -%}
+
+      <button class="w-full button button--primary">
+        {{- 'customer.login_page.sign_in' | t -}}
+      </button>
+
+      {%- if form.errors -%}
+        <small tabindex="-1" autofocus>
+          <div class="flex gap-x-1">
+            <span class="hidden">{{ 'accessibility.error' | t }} </span>
+            <span class="inline-flex items-center m-0">
+              {% render 'icon-error' %}
+            </span>
+            <p>{{ 'customer.error_heading' | t }}</p>
+          </div>
+          <div>
+            {{ form.errors | default_errors }}
+          </div>
+        </small>
+      {%- endif -%}
+
+      <a class="block mx-auto text-link w-fit" href="{{ routes.account_register_url }}">
+        {{ 'customer.login_page.create_account' | t }}
+      </a>
+    {%- endform -%}
+  </div>
+
+  {%- if shop.checkout.guest_login -%}
+    <div class="w-full max-w-xs mx-auto my-0">
+      <hr>
+      <h2>{{ 'customer.login_page.guest_title' | t }}</h2>
+
+      {%- form 'guest_login', class: 'flex flex-col items-center gap-y-4' -%}
+        <button class="w-full mx-0 mt-8 mb-6 button button--primary">
+          {{- 'customer.login_page.guest_continue' | t -}}
+        </button>
+      {%- endform -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Login",
+  "settings": [
+
+  ]
+}
+{% endschema %}

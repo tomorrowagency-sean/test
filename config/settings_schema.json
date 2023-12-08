@@ -1,0 +1,39 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Tomorrow Base Theme",
+    "theme_version": "1.2.0-beta",
+    "theme_author": "Tomorrow",
+    "theme_documentation_url": "http://tomorrowagency.com/",
+    "theme_support_url": "http://tomorrowagency.com/"
+  },
+  {
+    "name": "General",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Technical",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Storefront API"
+      },
+      {
+        "type": "text",
+        "id": "technical_storefront_token",
+        "label": "Token"
+      },
+      {
+        "type": "text",
+        "id": "technical_storefront_api_version",
+        "label": "Version"
+      }
+    ]
+  }
+]

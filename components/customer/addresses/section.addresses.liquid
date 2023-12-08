@@ -1,0 +1,111 @@
+<section
+  class="container my-8 md:my-16"
+  data-section="customer/addresses"
+>
+  {% assign account = 'customer.account.title' | t %}
+  {% assign heading = 'customer.addresses.title' | t %}
+  {% capture primary_action %}
+    <div>
+      <button
+        class="justify-center w-full button button--primary"
+        type="button"
+        id="AddAddressButton"
+        aria-expanded="false"
+        aria-controls="AddAddress"
+        data-primary-action="add"
+      >
+        {{- 'customer.addresses.add_new' | t -}}
+      </button>
+      <button
+        class="justify-center hidden w-full button button--destroy"
+        type="reset"
+        data-primary-action="cancel"
+      >
+        {{- 'customer.addresses.cancel' | t -}}
+      </button>
+    </div>
+  {% endcapture %}
+  {%
+    render 'account-header'
+    heading: heading,
+    breadcrumb_1_text: account,
+    breadcrumb_1_url: routes.account_url,
+    primary_action: primary_action,
+  %}
+
+  {%- paginate customer.addresses by 3 -%}
+    <div data-customer-addresses>
+      <div id="AddAddress" class="flex flex-col items-center hidden">
+        <h2 id="AddressNewHeading" class="mb-4 text-center">
+          {{- 'customer.addresses.add_new' | t -}}
+        </h2>
+
+        {%- render 'address-form' address: customer.new_address %}
+      </div>
+
+      <div id="AddressesList">
+        <ul class="flex mb-16 gap-x-5" role="list">
+          {%- for address in customer.addresses -%}
+            <li class="w-1/3" data-address>
+              <div id="Address_{{ address.id }}" class="flex flex-col justify-between h-full">
+                <div class="mb-4">
+                  <div>{{ address | format_address }}</div>
+                  {%- if address == customer.default_address -%}
+                    <span>{{ 'customer.addresses.default' | t }}</span>
+                  {%- endif -%}
+                </div>
+
+                <div class="flex gap-x-2">
+                  <button
+                    class="justify-center w-1/2 button button--primary"
+                    type="button"
+                    id="EditFormButton_{{ address.id }}"
+                    aria-label="{{ 'customer.addresses.edit_address' | t }} {{ forloop.index }}"
+                    aria-controls="EditAddress_{{ address.id }}"
+                    aria-expanded="false"
+                    data-address-id="{{ address.id }}"
+                  >
+                    {{- 'customer.addresses.edit' | t -}}
+                  </button>
+
+                  <button
+                    class="justify-center w-1/2 button button--destroy"
+                    type="button"
+                    aria-label="{{ 'customer.addresses.delete' | t }} {{ forloop.index }}"
+                    data-target="{{ address.url }}"
+                    data-confirm-message="{{ 'customer.addresses.delete_confirm' | t }}"
+                  >
+                    {{- 'customer.addresses.delete' | t -}}
+                  </button>
+                </div>
+              </div>
+            </li>
+          {%- endfor -%}
+        </ul>
+
+        {%- render 'pagination', paginate: paginate -%}
+      </div>
+
+      <ul role="list">
+        {%- for address in customer.addresses -%}
+          <li id="EditAddress_{{ address.id }}" class="hidden w-full" data-address>
+            <div class="flex flex-col items-center">
+              <h2 class="mb-4 text-center">{{ 'customer.addresses.edit_address' | t }}</h2>
+
+              {%- render 'address-form' address: address %}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Addresses",
+  "settings": [
+
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{
+  "sections": {
+    "main": {
+      "type": "blog",
+      "settings": {
+        "layout": "collage",
+        "show_date": true,
+        "show_author": true,
+        "show_excerpt": true
+      }
+    }
+  },
+  "order": ["main"]
+}

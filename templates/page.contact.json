@@ -1,0 +1,13 @@
+{
+  "sections": {
+    "example": {
+      "type": "example",
+      "settings": {}
+    },
+    "6206f4c2-a981-4086-b2e6-39fd2a675734": {
+      "type": "contact-form",
+      "settings": {}
+    }
+  },
+  "order": ["example", "6206f4c2-a981-4086-b2e6-39fd2a675734"]
+}
